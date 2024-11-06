@@ -1,0 +1,4 @@
+*.txt filter=crypt diff=crypt merge=crypt
+*.sh filter=crypt diff=crypt merge=crypt
+bashrc filter=crypt diff=crypt merge=crypt
+vimrc filter=crypt diff=crypt merge=crypt
