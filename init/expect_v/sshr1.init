@@ -1,0 +1,85 @@
+#!/usr/bin/expect -f -d
+set timeout -1
+set record_server_ip 103.225.9.80
+
+# --------------login-------------
+spawn ssh  -p 60022 chengang09@10.144.188.33
+expect "password:"
+send "Im072portsc_\r"
+expect "usmshell"
+send "/"
+sleep 1
+send "10.144.152.43\r"
+sleep 1
+send "\r"
+sleep 1
+send "cd / \r"
+sleep 1
+send "ls \r"
+
+# --------------sudo-------------
+send "sudo su \r"
+
+# install ntpdate for datetime sync
+# -------------------------------
+send "command -v ntpdate || (yum -y clean all && yum -y distro-sync && yum -y update && yum -y install ntp ntpdate) || apt -y install ntp ntpdate || apt-get -y install ntp ntpdate \r"
+
+# sync net-time
+# -------------------------------
+send "ntpdate -u ntp3.aliyun.com \r"
+
+# update package manager
+# -------------------------------
+send "yum -y update || apt -y update || apt-get -y update \r"
+
+# install git
+# -------------------------------
+send "command -v git || yum -y install git || apt -y install git || apt-get -y install git \r"
+send "/usr/bin/git config --global user.email 'databingo@foxmail.com' \r"
+send "/usr/bin/git config --global user.name \"today072from10.144.152.43\" \r"
+
+# for add chinese file name ok
+# -------------------------------
+send "/usr/bin/git config --global core.quotepath false \r"
+
+# pull record.git
+# ---------------------------------------------
+send "mkdir -p /usr/local/projects/ \r"
+#send "rm -rf /usr/local/projects/record \r"
+send "cd /usr/local/projects/ \r "
+send "/usr/bin/git clone root@$record_server_ip:/usr/local/projects_git/record.git \r"
+expect {
+        "(yes/no)?" {send "yes\r"; exp_continue }
+        "password:" {send "Im072port\r"; exp_continue }
+        "already" {send "echo ok\r"; }
+        "已经存在" {send "echo ok\r"; }
+        "deltas" { puts "ok" }
+        }
+#puts "expect delta\r"
+#expect "delta"
+expect {
+	 "delta" { puts "ok" }
+         "ok" { puts "ok" }
+       }
+#puts "get delta\r"
+
+# run system_prepare
+# ---------------------------------------------
+#send "nohup bash /usr/local/projects/record/init/system_prepare.sh > /tmp/system_prepare.log 2>&1 & \r"
+send "bash /usr/local/projects/record/init/system_prepare.sh \r"
+sleep 1
+#expect "DONE"
+puts "DONE"
+
+# --------------exit-------------
+send "exit \r"
+expect "exit"
+send "exit \r"
+expect "usmshell"
+send ":"
+sleep 1
+send "q\r"
+sleep 1
+send "\r"
+expect eof
+#interact

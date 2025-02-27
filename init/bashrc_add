@@ -1,0 +1,408 @@
+#added#
+export PATH=$PATH:/bin/
+export PATH=$PATH:/usr/bin/
+export PATH=$PATH:/usr/local/bin/
+export PATH=$PATH:/usr/local/go/bin/
+export PATH=$PATH:~/go/bin/
+export PATH=$PATH:/usr/local/projects/bin/
+export PATH=$PATH:/home/chen/pycharm-2016.2.3/bin 
+export PATH=$PATH:/usr/local/projects/flutter/bin/
+
+HISTSIZE=1000000  # set history commands acount
+HISTFILESIZE=1000000
+HISTCONTROL=ignoreboth:erasedups # filter duplicate history commands
+
+set -o vi                          # set shell in vi model
+export VISUAL=vim                  # set default vim
+export EDITOR="$VISUAL"
+export GO111MODULE=on              # enable golang module
+#export GOPROXY=https://goproxy.io  # set golang proxy
+export CGO_ENABLED=0               # not ust c lib but pure go 
+#alias s="cd /root/go/src/cacheserver/"
+
+alias vi='vim'
+#alias b='cd ..'
+alias c='clear'
+#alias p='ps x | grep '
+alias h='history | grep '
+alias ls='ls --show-control-chars' # for ls show chinese file name currect
+alias ls='ls'    # MAC for ls as ls
+alias ll='ls -1' # MAC for has no ll
+alias fs='du -cksh * | sort -rn | head -100' # show file size
+alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"' # share current folder file ctr_c to stop 
+# docker
+#alias dm='docker-machine' 
+#alias dp='docker ps'
+#alias drmi='docker rmi  -f $(docker images --filter  "dangling=true" -q --no-trunc)'
+alias wn="watch -n1 \"netstat -ant|awk '{print \\\$6}' |sort|uniq -c|sort -nr\""
+alias ccnone="docker rmi -f \$(docker images | grep '^<none>' | awk '{print \$3}')"
+# git
+alias add="git add --all ."
+alias commit="git commit -am 'update'"
+alias push="git push origin master"
+alias p="add && commit && push"
+#alias pull="git pull origin master"
+alias pull="git pull origin main"
+#alias cm='git add . ; git commit -am "update" ; git push origin master -v' 
+alias cm='git add . ; git commit -am "update" ; git push -v' 
+alias rc='cd /usr/local/projects/record && cm && cd -'
+alias rn='cd /usr/local/projects/note && cm && cd -'
+alias proxy='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890'
+
+#alias cleos='docker-compose exec keosd /opt/eosio/bin/cleos -u http://api.eosnewyork.io --wallet-url http://localhost:8900'
+#alias cleos2='docker exec -it eosio /opt/eosio/bin/cleos --url http://127.0.0.1:7777 --wallet-url http://127.0.0.1:5555'
+alias sss='cd /usr/local/projects/record/ss; docker-compose -f dc-server.yaml up -d'
+
+alias sshaws='ssh -o ServerAliveInterval=20 -o ConnectTimeout=20 -i ~/.ssh/ccc.pem ec2-user@ec2-13-42-66-167.eu-west-2.compute.amazonaws.com'
+
+alias jn='jnote /usr/local/projects/record/note.json'
+alias jp='jnote /usr/local/projects/record/pass.json'
+alias tb="sed 's/[- ]*\([+|]\)/'$'\x01''\1/g' | column -ts $'\x01' | sed '/^[-+ ]*$/s/ /-/g'" # table align
+shopt -s expand_aliases
+                      
+makesure_system() {
+    sys=$(uname)
+}
+
+makesure_system
+
+#clearContainer_with_keyword() {               
+#    # docker rm all with keyword 
+#    echo "--清理容器with keyword:$1--"
+#    if [ -z "$1" ]
+#    then
+#    echo "--no keyword, exit--"
+#    return 1
+#    fi
+# 
+#    CONTAINER_NAMES=$(docker ps -aq --format '{{.Names}}' | grep $1 | xargs echo)
+#    echo $CONTAINER_NAMES
+#    if [ -z "$CONTAINER_NAMES" -o "$CONTAINER_NAMES" == " " ]
+#    then
+#    echo "-- No containers with $1 available for deletion ----"
+#    else
+#    echo "-- Delete containers $CONTAINER_NAMES ----"
+#    docker rm -f $CONTAINER_NAMES
+#    fi
+#} 
+
+#cck() {
+#    clearContainer_with_keyword "$*"
+#}
+
+#cc() {               
+#    # docker rm all 
+#    echo "--清理容器--"
+#    CONTAINER_NAMES=$(docker ps -aq | xargs echo)
+#    echo $CONTAINER_NAMES
+#    if [ -z "$CONTAINER_NAMES" -o "$CONTAINER_NAMES" == " " ]
+#    then
+#    echo "-- No containers for deletion ----"
+#    else
+#    docker rm -f $CONTAINER_NAMES
+#    fi
+#} 
+
+#de() {
+#    img=$1
+#    docker exec -it $img bash || docker exec -it $img sh
+#}
+#
+#dg() {
+#    img=$1
+#    docker logs --tail 50 -f $img  
+#}
+#
+#ds() {
+#    img=$1
+#    docker start $img  
+#}
+#
+#dt() {
+#    img=$1
+#    docker stop $img  
+#}
+
+ex() {
+    # untar file by type
+    if [ -f $1 ] ; then
+        case $1 in
+        *.tar.bz2)   tar xjf $1 ;;
+        *.tar.gz)    tar xzf $1 ;;
+        *.bz2)       bunzip2 $1 ;;
+        *.rar)       rar x $1   ;;
+        *.gz)        gunzip $1  ;;
+        *.tar)       tar xf $1  ;;
+        *.tbz2)      tar xjf $1 ;;
+        *.tgz)       tar xzf $1 ;;
+        *.zip)       unzip $1   ;;
+        *.Z)         uncompress $1 ;;
+        *.7z)        7z x $1    ;;
+        *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+#ss() {
+#        cd /usr/local/projects/record/ss
+#        docker-compose -f dc-client.yaml up -d
+#}
+
+
+#n() {
+#     # create new note with name
+#     arguments="$*"
+#     name="${arguments// /_}"
+#     echo $name
+#     touch /usr/local/projects/record/note/"$name".txt;
+#     chmod +rwx /usr/local/projects/record/note/"$name".txt;
+#     echo "$name" >> /usr/local/projects/record/note/"$name".txt;
+#     echo " " >> /usr/local/projects/record/note/"$name".txt;
+#     echo " " >> /usr/local/projects/record/note/"$name".txt;
+#     vim /usr/local/projects/record/note/"$name".txt +3;
+#     #    cat >> /usr/local/projects/record/note/"$*".txt
+#     }
+    
+#o() {
+#     # open note with name
+#     name="$*"
+#     vim /usr/local/projects/record/note/"$name".txt 
+#     #    cat >> /usr/local/projects/record/note/"$*".txt
+#     }
+#
+#f() {
+#    # find in notes
+#    # find /usr/local/projects/record/note/ -name "*.txt" |xargs -0 | grep --color=always -nr "$1" | less -R
+#    # grep -rA3 "$*"  /usr/local/projects/record/note/
+#    grep -rn "$*"  /usr/local/projects/record/note/
+#}
+#
+#r() {
+#    # remove in notes
+#    name="$*"
+#    rm  -f   /usr/local/projects/record/note/"$name".txt
+#}
+#
+#
+#g() {
+#    set -x
+#    if [ -z $* ]
+#    then echo "plz add git commit message"
+#    return 1
+#    fi
+#    
+#    cd /usr/local/projects/record/
+#    echo "  add"
+#    git add --all
+#    echo "  commit $* "
+#    git commit -am "$(date) $*"
+#    echo "  pull"
+#    git pull origin master
+#    echo "  push"
+#    git push origin master
+#    cd -
+#    set +x
+#}
+
+ff() {
+    # search keyword in google by firefox
+    case $sys in
+    "Darwin")
+        set -x
+        open https://www.google.com/search?q="$*" > /dev/null 2>&1& # have be 2>&1&
+        set +x
+        ;;
+    "Linux")
+       #nohup firefox www.google.com/search?q="$*" > /dev/null 2>&1& 
+        chromium-browser www.bing.com/search?q="$*" > /dev/null 2>&1& 
+        ;;
+    esac
+} 
+
+#
+#fff() {
+#    # search keyword in google by firefox
+#    nohup firefox www.bing.com/search?q="$*" > /dev/null 2>&1& 
+#} 
+
+
+#fx() {
+#    # open html file by firefox
+#
+#    case $sys in
+#    "Darwin")
+#        nohup open -a "Google Chrome" $1 > /dev/null 2>&1&
+#        ;;
+#    "Linux")
+#        nohup firefox $1 > /dev/null 2>&1& 
+#        ;;
+#    esac
+#} 
+
+md() {
+    if [ -z "$1" ]
+    then
+    echo "--no md file, exit--"
+    return 1
+    fi
+    local port
+    port=$((1000 + RANDOM % 8999))
+    case $sys in
+    "Darwin")
+        set -x
+        nohup grip --user ashahChen --pass Im072portgh  -b $1 $port & > /dev/null 2>&1 &
+        set +x
+        ;;
+    "Linux")
+        nohup grip --user ashahChen --pass Im072portgh  -b $1 $port& > /dev/null 2>&1 &
+        ;;
+    esac
+}
+
+#pgv() {
+#    case $sys in
+#    "Darwin")
+#        ;;
+#    "Linux")
+#        read -p "images_server_ip:" ip
+#        ssh -t root@$ip "cd /usr/local/projects/tool/fabric-images/ && docker save -o gv.tar gv && exit" 
+#        scp root@$ip:/usr/local/projects/tool/fabric-images/gv.tar  /usr/local/projects/tool/fabric-images/
+#        docker load -i /usr/local/projects/tool/fabric-images/gv.tar
+#        ;;
+#    esac
+#} 
+
+#ptl() {
+#    case $sys in
+#    "Darwin")
+#        ;;
+#    "Linux")
+#        read -p "tool_server_ip:" ip
+#        rsync -avHz root@$ip:/usr/local/projects/tool  /usr/local/projects
+#        ;;
+#    esac
+#} 
+#
+#pw() {
+#    case $sys in
+#    "Darwin")
+#        vim /usr/local/projects/record/pass/zh_ps
+#        ;;
+#    "Linux")
+#        vim /usr/local/projects/record/pass/zh_ps
+#        ;;
+#    esac
+#} 
+
+#vi() {
+#    case $sys in
+#    "Darwin")
+#        docker run --name vi -e TZ=`ls -la /etc/localtime | cut -d/ -f8-9` --rm -v /etc/hosts:/etc/hosts:ro -itv  `pwd`:/go/src/workspace vi "$1"
+#        ;;
+#    "Linux")
+#        docker run --rm -v /etc/localtime:/etc/localtime:ro -v /etc/hosts:/etc/hosts -itv  `pwd`:/go/src/workspace vi "$1"
+#        ;;
+#    esac
+#}
+
+#py() {
+#    case $sys in
+#    "Darwin")
+#        #docker run --name vi -e TZ=`ls -la /etc/localtime | cut -d/ -f8-9` --rm -v /etc/hosts:/etc/hosts:ro -itv `pwd`:/workspace frolvlad/alpine-python3 python /workspace/"$1"
+#        docker run --name vi -e TZ=`ls -la /etc/localtime | cut -d/ -f8-9` --rm -v /etc/hosts:/etc/hosts:ro -itv `pwd`:/workspace -w /workspace py python /workspace/"$1"
+#        ;;
+#    "Linux")
+#		#docker run --rm -v /etc/localtime:/etc/localtime:ro -v /etc/hosts:/etc/hosts -itv  `pwd`:/workspace frolvlad/alpine-python3 python  /workspace/"$1"
+#		docker run --rm -v /etc/localtime:/etc/localtime:ro -v /etc/hosts:/etc/hosts -itv  `pwd`:/workspace -w /workspace py python  /workspace/"$1"
+#        ;;
+#    esac
+#}
+
+
+
+#machine() {
+#    case $sys in
+#    "Darwin")
+#        vim /usr/local/projects/record/init/machine.txt
+#        ;;
+#    "Linux")
+#        vim /usr/local/projects/record/init/machine.txt
+#        ;;
+#    esac
+#} 
+
+#refresh() {
+#    case $sys in
+#    "Darwin")
+#        ;;
+#    "Linux")
+#        cd /usr/local/projects/record/ && git pull;
+#		cd init/ && bash system_prepare.sh;
+#        ;;
+#    esac
+#} 
+
+#pdf() {
+#    case $sys in
+#    "Darwin")
+#        nohup mupdf-gl "$1" >/dev/null 2>&1  &
+#        ;;
+#    "Linux")
+#        nohup mupdf-gl "$1" >/dev/null 2>&1  &
+#    esac
+#}
+
+#cdf() {
+#    case $sys in
+#    "Darwin")
+#        local file
+#        local dir
+#        if [ $(pwd) != "/" ]; then cd /usr/local/projects/; fi
+#        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || cd -
+#        ;;
+#    "Linux")
+#        local file
+#        local dir
+#        if [ $(pwd) != "/" ]; then cd /usr/local/projects/; fi
+#        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || cd -
+#        ;;
+#    esac
+#}
+
+#vmd() {
+#    case $sys in
+#    "Darwin")
+#        local file
+#        local dir
+#       #pandoc -s "$1" -o "$1".html
+#       #pandoc -s "$1" -t pdf -o "$1".pdf --filter pandoc-citeproc --bibliography="/usr/local/projects/data/pdf_style/library.bib" --csl="/usr/local/projects/data/pdf_style/s.csl" --pdf-engine=xelatex -f markdown+footnotes+inline_notes
+#        pandoc -s "$1" -t pdf -o "$1".pdf --filter pandoc-citeproc --pdf-engine=xelatex -f markdown+footnotes+inline_notes+latex_macros -N --listings --template="/usr/local/projects/data/pdf_style/edit.latex"
+#        docker run -ti --rm -v "$(pwd)":/pdf bwits/pdf2htmlex pdf2htmlEX --zoom 1.3 ./"$1".pdf
+#        mv "$1".html /usr/local/projects/data/share_file_server/"$1".pdf.html
+#        open -a "Google Chrome" http://localhost:8888/"$1".pdf.html
+#        ;;
+#    "Linux")
+#        local file
+#        local dir
+#        if [ $(pwd) != "/" ]; then cd /usr/local/projects/; fi
+#        file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir" || cd -
+#        ;;
+#    esac
+#}
+
+#gist() {
+#     curl -X POST -d "{\"public\":false, \"files\":{\"record.txt\":{\"content\":\"$@\"}}}" -u Databingo:Im072portgh https://api.github.com/gists
+#}
+
+eval "$(jump shell bash)"
+
+
+#for tmux show chinese
+#export LANG="zh_CN.UTF-8"
+#export LC_ALL="zh_CN.UTF-8"
+
+# for golang tview show first character correctly
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"

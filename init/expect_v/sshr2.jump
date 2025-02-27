@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f -d
+set timeout -1
+spawn ssh  -p 60022 chengang09@10.144.188.33
+expect "password:"
+send "Im072portsc_\r"
+expect "usmshell"
+send "/"
+sleep 1
+send "10.144.152.155\r"
+sleep 1
+send "\r"
+sleep 1
+send "cd / \r"
+sleep 1
+send "ls \r"
+send "sudo su \r"
+send "cd /usr/local/projects/ \r"
+interact
