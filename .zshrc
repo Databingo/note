@@ -48,13 +48,13 @@ alias push="git push -v origin main || git push -v origin master"
 cm() {
     local msg="${*:-update}"
     git add -A && \
-    #if ! git diff --cached --quiet; then
-    #    git commit -m "$msg"
-    #fi
-    git commit -m "$msg" && \
-    #git pull -v origin main && \
-    #git push -v origin HEAD:main
-    pull && push
+    if ! git diff --cached --quiet; then
+        git commit -m "$msg"
+    fi
+    #git commit -m "$msg" && \
+    git pull -v origin main && \
+    git push -v origin HEAD:main
+    #pull && push
 }
  
 # note
@@ -62,8 +62,8 @@ alias jn="vim + /usr/local/projects/note/note.txt"
 alias jp='vim + /usr/local/projects/pass/pass.txt'
 #alias rp='cd /usr/local/projects/pass && pull && cm && cd -'
 #alias rn='cd /usr/local/projects/note && pull && cm && cd -'
-rn () { cd /usr/local/projects/note || return; pull; cm "$@"; cd - > /dev/null;}
-rp () { cd /usr/local/projects/pass || return; pull; cm "$@"; cd - > /dev/null;}
+rn () { cd /usr/local/projects/note || return; cm "$@"; cd - > /dev/null;}
+rp () { cd /usr/local/projects/pass || return; cm "$@"; cd - > /dev/null;}
 
 #alias sshaws='ssh -o ServerAliveInterval=20 -o ConnectTimeout=20 -i ~/.ssh/ccc.pem ec2-user@ec2-13-42-66-167.eu-west-2.compute.amazonaws.com'
 #alias tb="sed 's/[- ]*\([+|]\)/'$'\x01''\1/g' | column -ts $'\x01' | sed '/^[-+ ]*$/s/ /-/g'" # table align
