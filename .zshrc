@@ -40,19 +40,21 @@ alias unproxy='export https_proxy= http_proxy= all_proxy='
 #alias commit="git commit -am 'update'"
 #alias pull="git pull --rebase -v origin main || git pull --rebase -v origin master"
 alias pull="git pull --autostash --rebase -v origin main || git pull --autostash --rebase -v origin master"
-alias push="git push --autostash --rebase -v origin main || git push --autostash --rebase -v origin master"
+alias push="git push -v origin main || git push -v origin master"
 #alias p="add && commit && push"
 #alias cm='git add --all . ; git commit -am "update" ; git pull --rebase -v origin main ; git push -v origin HEAD:main' 
 #alias cm='B=$(git branch --show-current); git add --all . ; git commit -am "update" ; git pull -v origin $B ; git push -v origin $B' 
 #alias cm='git add --all . ; git commit -am "update" ; git pull -v origin main ; git push -v origin HEAD:main' 
 cm() {
     local msg="${*:-update}"
-    git add --all . && \
-    if ! git diff --cached --quiet; then
-        git commit -m "$msg"
-    fi
-    git pull -v origin main && \
-    git push -v origin HEAD:main
+    git add -A && \
+    #if ! git diff --cached --quiet; then
+    #    git commit -m "$msg"
+    #fi
+    git commit -m "$msg" && \
+    #git pull -v origin main && \
+    #git push -v origin HEAD:main
+    pull && push
 }
  
 # note
