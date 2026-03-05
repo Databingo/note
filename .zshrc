@@ -39,8 +39,8 @@ alias unproxy='export https_proxy= http_proxy= all_proxy='
 #alias add="git add --all ."
 #alias commit="git commit -am 'update'"
 #alias pull="git pull --rebase -v origin main || git pull --rebase -v origin master"
-alias pull="git pull --autostash origin main || git pull --autostash origin master"
-alias push="git push --autostash origin main || git push --autostash origin master"
+alias pull="git pull --autostash --rebase -v origin main || git pull --autostash --rebase -v origin master"
+alias push="git push --autostash --rebase -v origin main || git push --autostash --rebase -v origin master"
 #alias p="add && commit && push"
 #alias cm='git add --all . ; git commit -am "update" ; git pull --rebase -v origin main ; git push -v origin HEAD:main' 
 #alias cm='B=$(git branch --show-current); git add --all . ; git commit -am "update" ; git pull -v origin $B ; git push -v origin $B' 
