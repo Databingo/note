@@ -47,13 +47,13 @@ alias push="git push -v origin main || git push -v origin master"
 #alias cm='git add --all . ; git commit -am "update" ; git pull -v origin main ; git push -v origin HEAD:main' 
 cm() {
     local msg="${*:-update}"
+    git switch main || return;
     git add -A && \
     if ! git diff --cached --quiet; then
         git commit -m "$msg"
     fi
-    #git commit -m "$msg" && \
-    git pull -v origin main && \
-    git push -v origin HEAD:main
+    git pull -v --rebase origin main && \
+    git push -v origin main
     #pull && push
 }
  
