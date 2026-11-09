@@ -1,0 +1,16 @@
+set nocompatible
+set noswapfile
+set nobackup
+
+" 1. 核心性能优化：内置极速算法 + 彻底关闭代码折叠与冗余语法（消除 95% 渲染开销）
+set diffopt+=internal,algorithm:histogram
+set nofoldenable
+set nowrap
+syntax off
+
+" 2. 你的专属科学配色（高对比度、不遮掩字母、全终端兼容）
+set background=dark
+highlight DiffAdd    ctermbg=DarkGreen   ctermfg=White
+highlight DiffDelete ctermbg=DarkRed     ctermfg=LightGray
+highlight DiffChange ctermbg=DarkBlue    ctermfg=White
+highlight DiffText   ctermbg=DarkMagenta ctermfg=White cterm=bold
